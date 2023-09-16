@@ -1,4 +1,4 @@
-const {mongoose} = require("mongoose")
+const mongoose = require("mongoose")
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -7,11 +7,11 @@ const productSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    reuired: true
+    reqired: true
   },
   richDescription: {
-    required: false,
-    default:''
+    type: String,
+    default: ''
   },
   image: {
     type: String,

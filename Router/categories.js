@@ -11,4 +11,25 @@ router.get(`/`, async (req, res) =>{
   res.status(200).send(categoryList);
 })
 
+router.post(`/`, async (req,res )=> {
+  let category = new Category({
+    name: req.body.name,
+    icon: req.body.icon,
+    color: req.body.color
+  })
+  category = await category.save()
+
+  if(!category) return res.status(404).send('the category cannot be created')
+
+  res.send(category)
+}) 
+// api/vi/id
+router.delete('/:id', (req,res)=> {
+  Category.findByIdAndRemove(req.params.id).then(category => {
+    if(category) return res.status(200).send({message: 'category found and deleted' })
+    else return res.status(404).send('no category found')
+  }).catch(err => {
+    return res.status(400).send(err)
+  })
+})
 module.exports =router;
