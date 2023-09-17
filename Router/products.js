@@ -11,6 +11,14 @@ router.get(`/`, async (req, res)=> {
   res.send(productList)
 })
 
+router.get(`/:id`, async (req, res)=> {
+  const productId = await Product.findById(req.params.id)
+
+  if(!productId) return res.status(500).send('no product with that id was found')
+  res.send(productId)
+})
+
+
 router.post(`/`, async (req,res) => {
   const category = await Category.findById(req.body.category)
   if(!category) return res.status(400).send('invalid category')
@@ -27,7 +35,7 @@ router.post(`/`, async (req,res) => {
     rating: req.body.rating,
     numReveiws: req.body.numReveiws,
     isFeatured: req.body.isFeatured,
-  })
+  }) 
     const createdProduct = await product.save()
     if(!createdProduct) return res.status(500).send('the product cannot be created')
     res.status(201).send(createdProduct)
