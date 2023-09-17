@@ -28,8 +28,9 @@ router.get(`/get/count`, async (req, res) => {
   res.send({count :productCount})
 })
 
-router.get(`/get/featured`, async (req, res) => {
-  const products = await Product.find({isFeatured: true})
+router.get(`/get/featured:/count`, async (req, res) => {
+  const count = req.params.count ? req.params.count : 0
+  const products = await Product.find({isFeatured: true}).limit(+count)
 
   if(!products) return res.status(500).send("false")
   res.send(products)
