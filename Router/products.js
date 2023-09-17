@@ -21,6 +21,12 @@ router.get(`/:id`, async (req, res)=> {
   res.send(productId)
 })
 
+router.get(`/get/count`, async (req, res) => {
+  const productCount = await Product.countDocuments()
+
+  if(!productCount) return res.status(500).send('no product was found')
+  res.send({count :productCount})
+})
 
 router.post(`/`, async (req,res) => {
   const category = await Category.findById(req.body.category)
