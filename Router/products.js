@@ -28,6 +28,13 @@ router.get(`/get/count`, async (req, res) => {
   res.send({count :productCount})
 })
 
+router.get(`/get/featured`, async (req, res) => {
+  const products = await Product.find({isFeatured: true})
+
+  if(!products) return res.status(500).send("false")
+  res.send(products)
+})
+
 router.post(`/`, async (req,res) => {
   const category = await Category.findById(req.body.category)
   if(!category) return res.status(400).send('invalid category')
