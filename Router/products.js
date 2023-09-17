@@ -5,14 +5,14 @@ const { Category } = require('../Models/category')
 const router = express.Router()
 
 router.get(`/`, async (req, res)=> {
-  const productList = await Product.find()
+  const productList = await Product.find().select('name image')
 
   if(!productList) return res.status(500).send({success:false})
   res.send(productList)
 })
 
 router.get(`/:id`, async (req, res)=> {
-  const productId = await Product.findById(req.params.id)
+  const productId = await Product.findById(req.params.id).populate('category')
 
   if(!productId) return res.status(500).send('no product with that id was found')
   res.send(productId)
