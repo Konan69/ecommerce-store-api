@@ -4,8 +4,10 @@ const { Product } = require('../Models/product')
 const { Category } = require('../Models/category')
 const router = express.Router()
 
+
+
 router.get(`/`, async (req, res)=> {
-  const productList = await Product.find().select('name image')
+  const productList = await Product.find().populate('category')
 
   if(!productList) return res.status(500).send({success:false})
   res.send(productList)
@@ -17,6 +19,7 @@ router.get(`/:id`, async (req, res)=> {
   if(!productId) return res.status(500).send('no product with that id was found')
   res.send(productId)
 })
+
 
 
 router.post(`/`, async (req,res) => {
@@ -40,5 +43,38 @@ router.post(`/`, async (req,res) => {
     if(!createdProduct) return res.status(500).send('the product cannot be created')
     res.status(201).send(createdProduct)
 })
+
+router.put('/:id', async (req, res) => {
+  const category = await Category.findById(req.body.category)
+  if(!category) return res.status(400).send('invalid category')
+
+  const product = await Product.findByIdAndUpdate(req.params.id, 
+  {
+    name: req.body.name,
+    description: req.body.description,
+    richDescription: req.body.richDescription,
+    image: req.body.image,
+    brand: req.body.brand,
+    price: req.body.price,
+    category: req.body.category,
+    countInStock: req.body.countInStock,
+    rating: req.body.rating,
+    numReveiws: req.body.numReveiws,
+    isFeatured: req.body.isFeatured,
+  }, {new: true})
+  if(!product) return res.status(500).send('product cannot be updated')
+
+  res.status(200).send(product)
+})
+
+router.delete('/:id', (req,res)=> {
+  Product.findByIdAndRemove(req.params.id).then(product => {
+    if(product) return res.status(200).send({message: 'product found and deleted' })
+    else return res.status(404).send('no product found')
+  }).catch(err => {
+    return res.status(400).send(err)
+  })
+})
+
 
 module.exports = router
