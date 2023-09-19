@@ -52,7 +52,7 @@ router.post('/login' , async (req, res) => {
       secret, 
       {expiresIn: "1d"}
     )
-    res.status(200).send('User authenticated')
+    res.status(200).send({user: user.email, token: token})
   } else { return res.status(400).send('Email or Password incorrect')}
 })
 
