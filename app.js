@@ -4,7 +4,8 @@ const morgan = require('morgan')
 const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
-
+const authJwt = require('./helpers/jwt')
+ 
 const port = 3000
 const api = process.env.API_URL
 
@@ -16,6 +17,7 @@ app.options('*', cors)
 
 app.use(express.json()) 
 app.use(morgan('tiny'))
+app.use(authJwt)
 
 
 // routes
@@ -23,6 +25,7 @@ app.use(morgan('tiny'))
 const productRouter = require('./Router/products')
 const usersRouter = require('./Router/users')
 const categoriesRouter = require('./Router/categories')
+
 // const ordersRouter = require('./Router/orders')
  
 app.use(`${api}/products`, productRouter)
