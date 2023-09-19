@@ -2,6 +2,7 @@ const { User } = require("../Models/user")
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
+const jwt = require("jsonwebtoken")
 
 router.get("/", async (req, res) => {
   const UserList =  await User.find().select("-passwordHash")
@@ -39,10 +40,18 @@ router.post("/", async(req, res)=> {
 
 router.post('/login' , async (req, res) => {
   const user = await User.findOne({email:req.body.email})
+  const secret = process.env.secret
 
   if(!user) return res.status(400).send('User not found')
 
   if(user && bcrypt.compareSync(req.body.password, user.passwordHash)){
+    const token = jwt.sign(
+      {
+        userId: user.id
+      }, 
+      secret, 
+      {expiresIn: "1d"}
+    )
     res.status(200).send('User authenticated')
   } else { return res.status(400).send('Email or Password incorrect')}
 })
