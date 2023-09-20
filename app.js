@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
 const authJwt = require('./helpers/jwt')
+const errorhandler = require('./helpers/errorhandler')
  
 const port = 3000
 const api = process.env.API_URL
@@ -18,8 +19,7 @@ app.options('*', cors)
 app.use(express.json()) 
 app.use(morgan('tiny'))
 app.use(authJwt)
-
-
+// app.use(errorhandler)
 // routes
 
 const productRouter = require('./Router/products')
