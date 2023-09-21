@@ -85,4 +85,13 @@ router.post("/register", async(req, res)=> {
 
   res.send(user)
 })
+
+router.delete('/:id', (req,res)=> {
+  User.findByIdAndRemove(req.params.id).then(user => {
+    if(user) return res.status(200).send({message: 'user found and deleted' })
+    else return res.status(404).send('no user found')
+  }).catch(err => {
+    return res.status(400).send(err)
+  })
+})
 module.exports = router
