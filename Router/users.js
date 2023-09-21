@@ -17,6 +17,12 @@ router.get('/:id', async (req, res)=> {
 
   res.status(200).send(user)
 }) 
+router.get(`/get/count`, async (req, res) => {
+  const userCount = await User.countDocuments()
+
+  if(!userCount) return res.status(500).send('no product was found')
+  res.send({count :userCount})
+})
 
 router.post("/", async(req, res)=> {
   let user = new User({
