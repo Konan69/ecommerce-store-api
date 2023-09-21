@@ -25,11 +25,10 @@ app.use(authJwt)
 const productRouter = require('./Router/products')
 const usersRouter = require('./Router/users')
 const categoriesRouter = require('./Router/categories')
-
-// const ordersRouter = require('./Router/orders')
+const ordersRouter = require('./Router/orders')
  
 app.use(`${api}/products`, productRouter)
-// app.use(`${api}/orders`, ordersRouter)
+app.use(`${api}/orders`, ordersRouter)
 app.use(`${api}/categories`, categoriesRouter)
 app.use(`${api}/users`, usersRouter)
 
