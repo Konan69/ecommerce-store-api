@@ -107,4 +107,11 @@ router.get('/get/totalsales', async (req, res)=>{
    res.send({totalsales: totalSales.pop().totalsales})
 })
 
+router.get(`/get/count`, async (req, res) => {
+  const orderCount = await Order.countDocuments()
+
+  if(!orderCount) return res.status(500).send('no product was found')
+  res.send({count :orderCount})
+})
+
 module.exports =router;
