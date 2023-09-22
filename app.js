@@ -6,6 +6,7 @@ const cors = require('cors')
 require('dotenv').config()
 const authJwt = require('./helpers/jwt')
 const errorhandler = require('./helpers/errorhandler')
+const multer = require('multer')
  
 const port = 3000
 const api = process.env.API_URL
@@ -15,7 +16,6 @@ app.use(cors())
 app.options('*', cors)
 
 // middleware  
-
 app.use(express.json()) 
 app.use(morgan('tiny'))
 app.use(authJwt)
