@@ -104,6 +104,24 @@ router.post(`/`,uploadOptions.single('image'),  async (req,res) => {
     res.status(201).send(createdProduct)
 })
 
+router.put(
+  '/gallery-images/:id',
+ uploadOptions.array('image', 10), 
+ async (req, res) => {
+  if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).send('invalid product id')
+
+  const files = req.files 
+  // if(files)
+  //update product
+  const product = await Product.findByIdAndUpdate(req.params.id, 
+  {
+    images: imagePaths
+  }, {new: true})
+  if(!product) return res.status(500).send('product cannot be updated')
+
+  res.status(200).send(product)
+})
+
 router.put('/:id', async (req, res) => {
   if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).send('invalid product id')
 
