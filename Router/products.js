@@ -5,7 +5,7 @@ const { Category } = require('../Models/category')
 const mongoose = require('mongoose')
 const multer = require('multer')
 const router = express.Router()
-import { mkdir } from 'fs/promises';
+const mkdir =  require('fs/promises');
 
 
 const FILE_TYPE_MAP = {
