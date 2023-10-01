@@ -80,6 +80,7 @@ router.post(`/`,uploadOptions.single('image'),  async (req,res) => {
   if(!category) return res.status(400).send('invalid category')
 
   const file = req.file
+  if(!file) return res.status(400).send('no image in the request')
 
   const fileName = file.filename
   const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
