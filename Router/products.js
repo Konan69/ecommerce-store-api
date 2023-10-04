@@ -111,6 +111,8 @@ router.put(
   if (!mongoose.isValidObjectId(req.params.id)) return res.status(400).send('invalid product id')
 
   const files = req.files 
+  const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
+  const imagePaths = `${basePath}${files}`
   // if(files)
   //update product
   const product = await Product.findByIdAndUpdate(req.params.id, 
